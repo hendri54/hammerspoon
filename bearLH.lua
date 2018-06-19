@@ -1,10 +1,12 @@
 local this = {}
 bearLH = this
 
-require("constLH")
+require("appDefaultsLH")
+
+this.name = "Bear"
 
 function this.app()
-   local app = constLH.default_app()
+   local app = appDefaultsLH.default_app()
    app.replaceTb = this.replacement_table()
    app.useGlobalReplaceTb = true
    return app

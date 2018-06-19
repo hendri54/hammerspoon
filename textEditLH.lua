@@ -1,10 +1,12 @@
 local this = {}
 textEditLH = this
 
-require("constLH")
+require("appDefaultsLH")
+
+this.name = "TextEdit";
 
 function this.app()
-   local app = constLH.default_app()
+   local app = appDefaultsLH.default_app()
    app.replaceTb = this.replacement_table()
    app.menu = this.menu()
    app.useGlobalReplaceTb = true

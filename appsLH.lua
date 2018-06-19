@@ -3,6 +3,7 @@ this = {}
 appsLH = this
 
 require("displaysLH")
+require("windowLH")
 require("atomLH")
 require("bearLH")
 require("matlabLH")
@@ -12,8 +13,7 @@ require("textEditLH")
 -- List of all applications with settings
 -- Lower case names!
 this.appList = {matlab = matlabLH.app(), bear = bearLH.app(),
-	atom = atomLH.app(),
-	textedit = textEditLH.app()}
+	atom = atomLH.app(),  textedit = textEditLH.app()}
 
 
 function this.current_app_name()
@@ -62,52 +62,52 @@ function this.position_app(appName)
 	local screenSize = displaysLH.get_screen_size()
 
 	local winPos = nil
-	local monitorPos = "main"
+	local monitorPos = displaysLH.monMain
 	local widthFraction = 70
 	local heightFraction = 100
 
-	if screenSize == "small" then
+	if screenSize == displaysLH.sizeSmall then
 		widthFraction = 75
 	end
 
 	if appName == "Safari" or appName == "Firefox" then
-		monitorPos = "left"
-		winPos = "right"
+		monitorPos = displaysLH.monLeft
+		winPos = windowLH.right
 	elseif appName == "BBEdit" then
-		winPos = "left"
+		winPos = windowLH.left
 		widthFraction = 60
-		if screenSize == "small" then
+		if screenSize == displaysLH.sizeSmall then
 			widthFraction = 80
 		end
 	elseif appName == "Bear" then
-		winPos = "left"
+		winPos = windowLH.left
 		widthFraction = 60
-		if screenSize == "small" then
+		if screenSize == displaysLH.sizeSmall then
 			widthFraction = 75
 		end
 	elseif appName == "Atom" then
-		winPos = "left"
-		if screenSize == "small" then
+		winPos = windowLH.left
+		if screenSize == displaysLH.sizeSmall then
 			widthFraction = 80
 		end
 	elseif appName == "Lyx" then
-		winPos = "right"
-		if screenSize == "small" then
+		winPos = windowLH.right
+		if screenSize == displaysLH.sizeSmall then
 			widthFraction = 80
 		end
 	elseif appName == "Pathfinder" then
-		winPos = "right"
+		winPos = windowLH.right
 		widthFraction = 75
 	elseif appName == "Postbox" then
-		monitorPos = "left"
-		winPos = "right"
+		monitorPos = windowLH.left
+		winPos = windowLH.right
 		widthFraction = 75
 	end
 
 	if winPos then
 		hs.application.launchOrFocus(appName)
 		local win = hs.window.focusedWindow()
-		position_window(win, monitorPos, winPos, widthFraction, heightFraction)
+		windowLH.position_window(win, monitorPos, winPos, widthFraction, heightFraction)
 	end
 end
 

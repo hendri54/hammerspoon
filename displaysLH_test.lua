@@ -11,13 +11,13 @@ end
 
 function this.get_monitor_config_test()
    local mConfig = displaysLH.get_monitor_config()
-   assert(type(mConfig) == "string")
+   assert(type(mConfig) == type(displaysLH.configLaptop))
 end
 
 
 function this.get_screen_size_test()
    local screenSize = displaysLH.get_screen_size()
-   assert(type(screenSize) == "string")
+   assert(type(screenSize) == type(displaysLH.sizeSmall))
 end
 
 return this

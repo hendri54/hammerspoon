@@ -1,20 +1,17 @@
 local this = {}
 constLH_test = this
 
+require("constLH")
+require("privateLH")
+
+
 function this.test_all()
    this.one_test()
    this.lookup_test()
-   this.default_app_test()
 end
-
-function this.default_app_test()
-   app = constLH.default_app()
-   assert(app.monitorPos == "main")
-end
-
 
 function this.one_test()
-   local t = constLH.constTable
+   local t = privateLH.constTable
    assert(tableLH.length(t) > 2)
 end
 

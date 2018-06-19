@@ -1,6 +1,8 @@
 local this = {}
 textReplaceLH = this
 
+require("privateLH")
+
 
 -- Replacement table for app
 function this.app_table(appName)
@@ -15,7 +17,7 @@ end
 
 -- Table that joins app and constants
 function this.replacement_table(appName)
-   local t = constLH.constTable
+   local t = privateLH.constTable
    if appName then
       t2 = this.app_table(string.lower(appName))
    end
@@ -72,13 +74,13 @@ function this.app_specific_replace_text(macroName, appName)
 end
 
 function this.generic_replace_text(macroName)
-   t = constLH.constTable
+   t = privateLH.constTable
    return t[macroName]
 end
 
 
 function this.choice_table(appName)
-   local globalTable = uiLH.table_for_chooser(constLH.constTable)
+   local globalTable = uiLH.table_for_chooser(privateLH.constTable)
    local tbIn = this.app_table(string.lower(appName))
 
    if tbIn then
