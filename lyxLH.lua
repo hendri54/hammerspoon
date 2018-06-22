@@ -1,17 +1,17 @@
 local this = {}
-atomLH = this
+lyxLH = this
 
 require("appDefaultsLH")
 
-this.name = "Atom";
+this.name = "Lyx";
 
 function this.app()
    local app = appDefaultsLH.default_app()
    app.replaceTb = this.replacement_table()
    app.useGlobalReplaceTb = true
-   app.windowPos = windowLH.left;
+   app.windowPos = windowLH.right;
    app.widthFracSmall = 80;
-   app.widthFracLarge = 70;
+   app.widthFracLarge = 65;
    return app
 end
 

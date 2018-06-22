@@ -14,6 +14,9 @@ function this.default_app()
 	app.replaceTb = nil;
 	app.useGlobalReplaceTb = true;
 	app.monitorPos = displaysLH.monMain;
+	app.windowPos = nil;
+	app.widthFracSmall = nil;
+	app.widthFracLarge = nil;
 	-- App specific menu
 	app.menu = nil;
 	return app

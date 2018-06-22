@@ -112,6 +112,7 @@ end
 --[[
 Keys becomes prompts
 Values are functions to execute
+Cannot call window manipulation from chooser b/c the frontmost window is not the calling app
 ]]
 function this.replacement_table()
    local t = {OfficeStartup = startupLH.office_startup,

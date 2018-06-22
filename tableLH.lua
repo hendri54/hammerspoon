@@ -36,4 +36,38 @@ function this.concat(t1, t2)
    return t3
 end
 
+
+-- Shallow copy of table
+function this.shallow_copy(t1)
+   return {table.unpack(t1)}
+end
+
+
+-- Simple table comparison
+-- https://stackoverflow.com/questions/20325332/how-to-check-if-two-tablesobjects-have-the-same-value-in-lua
+function this.equal(o1, o2)
+    if o1 == o2 then return true end
+
+    local o1Type = type(o1)
+    local o2Type = type(o2)
+    if o1Type ~= o2Type then return false end
+    if o1Type ~= 'table' then return false end
+
+    local keySet = {}
+
+    for key1, value1 in pairs(o1) do
+        local value2 = o2[key1]
+        if value2 == nil or this.equal(value1, value2) == false then
+            return false
+        end
+        keySet[key1] = true
+    end
+
+    for key2, _ in pairs(o2) do
+        if not keySet[key2] then return false end
+    end
+    return true
+end
+
+
 return this

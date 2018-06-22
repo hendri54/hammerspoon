@@ -12,6 +12,7 @@ require("windowLH")
 require("startupLH")
 require("textReplaceLH")
 require("keymapLH")
+require("vimLH")
 require("testLH")
 
 

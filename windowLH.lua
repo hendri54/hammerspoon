@@ -221,6 +221,9 @@ end
 
 -- Position one window
 function this.position_window(win, monitorPos, leftRight, widthFraction, heightFraction)
+	if not win then
+		win = hs.window.focusedWindow()
+	end
 	if not heightFraction then
 		heightFraction = 100
 	end

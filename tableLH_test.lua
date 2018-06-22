@@ -5,7 +5,18 @@ function this.test_all()
    this.length_test()
    this.merge_test()
    this.concat_test()
+   this.shallow_copy_test()
 end
+
+
+function this.shallow_copy_test()
+   t1 = {"abc", 123};
+   t2 = tableLH.shallow_copy(t1);
+   assert(tableLH.equal(t1, t2));
+   table.insert(t2, "defghi");
+   assert(not tableLH.equal(t1, t2));
+end
+
 
 function this.length_test()
    local t = {a = 1, b = 2}
