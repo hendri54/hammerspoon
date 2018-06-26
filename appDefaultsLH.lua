@@ -3,7 +3,6 @@ appDefaultsLH = this
 
 require("displaysLH")
 
-
 -- Template for apps
 --[[
 Since there is no usable OOP, this is my way of creating inheritance

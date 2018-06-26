@@ -17,25 +17,27 @@ function del_bind(mods, key, bindFct)
 end
 
 
--- add menu bar indicator +++
+---------------------------------------------------
+-- Mode switching
+
 function normal_enter()
    delMode:exit()
    normal:enter()
-   hs.alert.show('Normal mode')
+   -- hs.alert.show('Normal mode')
    this.mode_show('N')
 end
 
 function insert_enter()
     normal:exit()
     delMode:exit()
-    hs.alert.show('Insert mode')
+    -- hs.alert.show('Insert mode')
     this.mode_show('I')
 end
 
 function delMode_enter()
    normal:exit()
    delMode:enter()
-   hs.alert.show('Delete mode')
+   -- hs.alert.show('Delete mode')
    this.mode_show('D')
 end
 
@@ -85,12 +87,19 @@ IN:
       single new keystroke to be issued
    bindShift  ::  boolean
       also bind the same key with shift to the same new key also with shift?
+   bindControl ::  boolean
+      also bind ctrl+key to same key in insert mode
+      example: ctrl+j -> left arrow
 ]]
-function this.key_bind(mods, key,  newMods, newKey,  bindShift, bindDelete)
+function this.key_bind(mods, key,  newMods, newKey,  bindShift, bindDelete, bindControl)
    function normalEvent()
       hs.eventtap.keyStroke(newMods, newKey)
    end
    norm_bind(mods, key, normalEvent);
+
+   if bindControl then
+      this.key_bind_control(mods, key, newMods, newKey);
+   end
 
    if bindShift then
       this.key_bind_shift(mods, key, newMods, newKey)
@@ -100,6 +109,18 @@ function this.key_bind(mods, key,  newMods, newKey,  bindShift, bindDelete)
       this.key_bind_delete(mods, key, newMods, newKey)
    end
 end
+
+
+-- Key binding in insert mode, but with additional control modifier key
+-- Maps ctrl + j into left arrow
+function this.key_bind_control(mods, key, newMods, newKey)
+   local mods2 = this.add_modifier(mods, "ctrl");
+   function ctrlEvent()
+      hs.eventtap.keyStroke(newMods, newKey)
+   end
+   hs.hotkey.bind(mods2, key, ctrlEvent);
+end
+
 
 
 -- Same key binding in normal mode, but with additional shift modifier key
@@ -128,28 +149,28 @@ end
 -- Copies mods table
 function this.add_modifier(mods, newMod)
    local mods2 = tableLH.shallow_copy(mods)
-   table.insert(mods2, "shift");
+   table.insert(mods2, newMod);
    return mods2;
 end
 
 
 ---------------------------------------------
--- Key bindings
+-- Key bindings; in all modes
 
-this.key_bind({}, constLH.leftKey,  {}, "Left",  true,  true);
-this.key_bind({}, constLH.rightKey,  {}, "Right",  true,  true);
-this.key_bind({}, constLH.upKey,  {}, "Up",  true,  false);
-this.key_bind({}, constLH.downKey,  {}, "Down",  true,  false);
-this.key_bind({}, constLH.leftKey,  {}, "Left",  true,  true);
-this.key_bind({}, constLH.wordRightKey,  {"alt"}, "Right",  true,  true);
-this.key_bind({}, constLH.wordLeftKey,  {"alt"}, "Left",  true,  true);
-this.key_bind({}, constLH.startOfLineKey,  {"cmd"}, "Left",  true,  true);
-this.key_bind({}, constLH.endOfLineKey,  {"cmd"}, "Right",  true,  true);
-this.key_bind({}, constLH.startOfDocKey,  {"cmd"}, "Up",  true,  false);
-this.key_bind({}, constLH.endOfDocKey,  {"cmd"}, "Down",  true,  false);
-this.key_bind({}, constLH.pageUpKey,  {}, "pageup",  true,  false);
-this.key_bind({}, constLH.pageDownKey,  {}, "pagedown",  true,  false);
+this.key_bind({}, constLH.leftKey,  {}, "Left",  true,  true, true);
+this.key_bind({}, constLH.rightKey,  {}, "Right",  true,  true, true);
+this.key_bind({}, constLH.upKey,  {}, "Up",  true,  false, true);
+this.key_bind({}, constLH.downKey,  {}, "Down",  true,  false, true);
+this.key_bind({}, constLH.wordLeftKey,  {"alt"}, "Left",  true,  true, true);
+this.key_bind({}, constLH.wordRightKey,  {"alt"}, "Right",  true,  true, true);
+this.key_bind({}, constLH.startOfLineKey,  {"cmd"}, "Left",  true,  true, true);
+this.key_bind({}, constLH.endOfLineKey,  {"cmd"}, "Right",  true,  true, true);
+this.key_bind({}, constLH.startOfDocKey,  {"cmd"}, "Up",  true,  false, false);
+this.key_bind({}, constLH.endOfDocKey,  {"cmd"}, "Down",  true,  false, false);
+this.key_bind({}, constLH.pageUpKey,  {}, "pageup",  true,  false, false);
+this.key_bind({}, constLH.pageDownKey,  {}, "pagedown",  true,  false, false);
 
+hs.hotkey.bind({'ctrl'}, constLH.selectLineKey, cursorMoveLH.select_line);
 norm_bind({}, constLH.selectLineKey, cursorMoveLH.select_line);
 del_bind({}, constLH.selectLineKey, cursorMoveLH.select_line);
 

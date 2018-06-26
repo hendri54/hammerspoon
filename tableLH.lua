@@ -1,10 +1,48 @@
 local this = {}
 tableLH = this
 
+
+-- Delete duplicate table values (in place)
+function this.delete_duplicate_values(tbIn)
+   if tableLH.length(tbIn) < 1 then
+      return
+   end
+
+   local keysToDelete = this.find_keys_with_duplicate_values(tbIn);
+   if tableLH.length(keysToDelete) < 1 then
+      return
+   end
+
+   for k,_ in pairs(keysToDelete) do
+      tbIn[k] = nil
+   end
+end
+
+
+function this.find_keys_with_duplicate_values(tbIn)
+   local valuesFound = {}
+   local keysToDelete = {}
+   for k, v in pairs(tbIn) do
+      if valuesFound[v] then
+         keysToDelete[k] = true;
+      else
+         valuesFound[v] = true;
+      end
+   end
+   return keysToDelete
+end
+
+
 function this.length(T)
-  local count = 0
-  for _ in pairs(T) do count = count + 1 end
-  return count
+   if not T then
+      return 0
+   end
+
+   local count = 0
+   for _ in pairs(T) do
+     count = count + 1
+   end
+   return count
 end
 
 

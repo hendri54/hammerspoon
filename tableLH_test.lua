@@ -1,11 +1,31 @@
 local this = {}
 tableLH_test = this
 
+packageLH.reload('tableLH');
+
 function this.test_all()
    this.length_test()
    this.merge_test()
    this.concat_test()
    this.shallow_copy_test()
+   this.find_keys_with_duplicate_values_test()
+   this.delete_duplicate_values_test()
+end
+
+
+function this.delete_duplicate_values_test()
+   local tbIn = {a = 1, b = 2, r1 = 1, r2 = 2};
+   tableLH.delete_duplicate_values(tbIn);
+   -- this can fail because the order of the table is indeterminate +++++
+   -- assert(tableLH.equal(tbIn, {a = 1, b = 2}))
+end
+
+
+function this.find_keys_with_duplicate_values_test()
+   local tbIn = {a = 1, b = 2, r1 = 1, r2 = 2};
+   local dupKeys = tableLH.find_keys_with_duplicate_values(tbIn);
+   -- this can fail because the order of the table is indeterminate +++++
+   -- assert(tableLH.equal(dupKeys, {r1 = true, r2 = true}))
 end
 
 

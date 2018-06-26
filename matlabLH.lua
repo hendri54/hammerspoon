@@ -3,10 +3,10 @@ matlabLH = this
 
 require("appDefaultsLH")
 
-this.name = "Matlab";
 
 function this.app()
    local app = appDefaultsLH.default_app()
+   app.name = "Matlab";
    app.replaceTb = this.replacement_table()
    app.useGlobalReplaceTb = false
    return app

@@ -1,3 +1,4 @@
+-- Display configurations; mainly for multi-monitor setup
 local this = {}
 displaysLH = this
 
@@ -52,6 +53,20 @@ function this.get_number_screens()
 end
 
 
+-- Return a named monitor. If it does not exist, return main monitor
+function this.get_monitor(monitorPos)
+	monList = hs.screen.allScreens()
+	-- This assumes that main monitor is first in list +++
+	if monitorPos == displaysLH.monMain then
+		return monList[1]
+	elseif monitorPos == displaysLH.monLeft then
+		return monList[2]
+	else
+		return monList[1]
+	end
+end
+
+
 -- Move window to a given monitor position
 function this.move_win_to_screen(win, monitorPos)
 	if not monitorPos then
@@ -60,13 +75,8 @@ function this.move_win_to_screen(win, monitorPos)
 	if this.get_number_screens() == 1 then
 		return
 	end
-	monList = hs.screen.allScreens()
-	-- This assumes that main monitor is first in list +++
-	if monitorPos == displaysLH.monMain then
-		win:moveToScreen(monList[1])
-	elseif monitorPos == displaysLH.monLeft then
-		win:moveToScreen(monList[2])
-	end
+	local mon = this.get_monitor(monitorPos);
+	win:moveToScreen(mon)
 	mouse_to_win_center(win)
 end
 

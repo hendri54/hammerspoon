@@ -3,10 +3,10 @@ atomLH = this
 
 require("appDefaultsLH")
 
-this.name = "Atom";
 
 function this.app()
    local app = appDefaultsLH.default_app()
+   app.name = "Atom";
    app.replaceTb = this.replacement_table()
    app.useGlobalReplaceTb = true
    app.windowPos = windowLH.left;

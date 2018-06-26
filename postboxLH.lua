@@ -5,10 +5,10 @@ require("appDefaultsLH")
 require('displaysLH')
 require('windowLH')
 
-this.name = "Postbox";
 
 function this.app()
    local app = appDefaultsLH.default_app()
+   app.name = "Postbox";
    app.replaceTb = nil;
    app.useGlobalReplaceTb = true
    app.monitorPos = displaysLH.monLeft;

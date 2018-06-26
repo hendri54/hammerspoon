@@ -9,8 +9,11 @@ end
 
 
 function this.test_all_packages()
-	local pkgList = {"constLH", "appDefaultsLH", "appsLH", "tableLH", "windowLH",
-		"textReplaceLH", "uiLH", "keymapLH", "displaysLH", "appMenuLH"}
+	-- stringLH must come last; Lua bug; testing quits after that
+	local pkgList = {"constLH", "appDefaultsLH", "appMenuLH", "appsLH", 'hsLH',
+		"tableLH", "windowLH",
+		"textReplaceLH", "uiLH", "keymapLH", "displaysLH", 'vimLH',
+		'stringLH'};
 	for k, v in pairs(pkgList) do
 		this.package_test(v)
 	end

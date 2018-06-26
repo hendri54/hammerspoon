@@ -3,10 +3,10 @@ safariLH = this
 
 require("appDefaultsLH")
 
-this.name = "Safari";
 
 function this.app()
    local app = appDefaultsLH.default_app()
+   app.name = "Safari";
    app.replaceTb = {}
    app.useGlobalReplaceTb = true
    app.windowPos = windowLH.right;

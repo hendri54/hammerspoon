@@ -24,7 +24,7 @@ this.selectLineKey = 'y';
 this.deleteKey = "d";
 
 
-
+-- constTable is in module privateLH, which does not get uploaded to github
 function this.constant(constName)
    return privateLH.constTable[constName]
 end

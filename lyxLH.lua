@@ -3,10 +3,10 @@ lyxLH = this
 
 require("appDefaultsLH")
 
-this.name = "Lyx";
 
 function this.app()
    local app = appDefaultsLH.default_app()
+   app.name = "Lyx";
    app.replaceTb = this.replacement_table()
    app.useGlobalReplaceTb = true
    app.windowPos = windowLH.right;
@@ -23,5 +23,6 @@ function this.replacement_table()
    }
    return t
 end
+
 
 return this

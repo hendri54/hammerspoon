@@ -1,3 +1,8 @@
+-- App specific menus
+--[[
+Implemented as nested choosers
+Menu items are defined in app objects
+]]
 local this = {}
 appMenuLH = this
 
@@ -7,7 +12,8 @@ require("uiLH")
 ----------------------------------
 -- Process menu for an app
 function this.app_menu(appName)
-   local app = appsLH.app_from_name(appName)
+   assert(type(appName) == 'string');
+   local app = appsLH.app_from_name(appName);
    if not app then
       -- print("App " .. appName .. " not found")
       return
@@ -24,8 +30,10 @@ function this.app_menu(appName)
    this.process_menu(appMenu, appName)
 end
 
+
 function this.current_app_menu()
    local appName = appsLH.current_app_name()
+   assert(type(appName) == 'string')
    this.app_menu(appName)
 end
 
@@ -88,10 +96,6 @@ end
 function this.is_menu_choice(command)
    return type(command) == "function"
 end
-
--- function this.process_menu_choice(command)
---    command()
--- end
 
 
 return this

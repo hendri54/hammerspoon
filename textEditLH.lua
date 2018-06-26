@@ -3,10 +3,10 @@ textEditLH = this
 
 require("appDefaultsLH")
 
-this.name = "TextEdit";
 
 function this.app()
    local app = appDefaultsLH.default_app()
+   app.name = "TextEdit";
    app.replaceTb = this.replacement_table()
    app.menu = this.menu()
    app.useGlobalReplaceTb = true

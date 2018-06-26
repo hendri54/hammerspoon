@@ -7,6 +7,8 @@ function this.test_all()
 end
 
 
+-----------  Interactive tests
+
 function this.process_menu_test()
    local appName = "TextEdit"
    -- Set up test menu

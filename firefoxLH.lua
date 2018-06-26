@@ -3,10 +3,10 @@ firefoxLH = this
 
 require("appDefaultsLH")
 
-this.name = "Firefox";
 
 function this.app()
    local app = appDefaultsLH.default_app()
+   app.name = "Firefox";
    app.replaceTb = {}
    app.useGlobalReplaceTb = true
    app.monitorPos = displaysLH.monLeft;

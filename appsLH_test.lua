@@ -1,7 +1,7 @@
 local this = {}
 appsLH_test = this
 
-require("appsLH")
+packageLH.reload("appsLH")
 
 
 function this.test_all()
@@ -11,7 +11,12 @@ end
 
 
 function this.appList_test()
-   local appList = {"matlab", "bear"}
+   local appTb = appsLH.appList;
+   for k, v in pairs(appTb) do
+      assert(v);
+   end
+
+   local appList = {"matlab", "bear", 'pathfinder'}
    for k, appName in pairs(appList) do
       local app = appsLH.appList[appName]
       assert(app)
@@ -20,10 +25,10 @@ end
 
 
 function this.app_from_name_test()
-   local appList = {"matlab", "bear"}
+   local appList = {"matlab", "bear", 'path finder'}
    for k, appName in pairs(appList) do
       local app = appsLH.app_from_name(appName)
-      assert(app)
+      assert(app,  'Failure for ' .. appName)
    end
 end
 

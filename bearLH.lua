@@ -3,10 +3,10 @@ bearLH = this
 
 require("appDefaultsLH")
 
-this.name = "Bear"
 
 function this.app()
    local app = appDefaultsLH.default_app()
+   app.name = "Bear"
    app.replaceTb = this.replacement_table()
    app.useGlobalReplaceTb = true
    app.windowPos = windowLH.left;

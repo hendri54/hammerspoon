@@ -5,21 +5,25 @@ appsLH = this
 require("displaysLH")
 require("windowLH")
 
+-- Each app needs an object with its settings
 require("atomLH")
 require("bearLH")
 require("firefoxLH")
 require('lyxLH')
 require("matlabLH")
+require('pathfinderLH')
 require("postboxLH")
 require("safariLH")
 -- App used for testing UI code
 require("textEditLH")
 
+
 -- List of all applications with settings
+-- Need to create a pointer to this before iterating on it
 -- Lower case names!
 this.appList = {matlab = matlabLH.app(), bear = bearLH.app(),
 	atom = atomLH.app(),  firefox = firefoxLH.app(),
-	lyx = lyxLH.app(),  postbox = postboxLH.app(),
+	lyx = lyxLH.app(), pathfinder = pathfinderLH.app(),  postbox = postboxLH.app(),
 	safari = safariLH.app(),  textedit = textEditLH.app()};
 
 
@@ -32,11 +36,23 @@ end
 -- App object from name
 -- Not case sensitive
 function this.app_from_name(appName)
-	return this.appList[string.lower(appName)]
+	local resultApp = nil;
+	-- Cannot iterate on this.appList without making a "copy"
+	local appTb = this.appList;
+	if not appTb then
+		error('appList empty')
+	end
+	for _, app in pairs(appTb) do
+		-- print(hs.inspect(app));
+		if string.lower(app.name) == string.lower(appName) then
+			resultApp = app;
+		end
+	end
+	return resultApp;
 end
 
 
--- Start an app
+-- Start an app and position it
 function this.start_app(appName)
 	hs.application.launchOrFocus(appName)
 	this.position_app(appName)
@@ -62,57 +78,42 @@ end
 -----------------------------------------
 -- Apply window positions to main apps
 -- Only if app is running
--- Update using settings for apps in appsLH +++
 function this.position_app(appName)
 	if not hs.application.find(appName) then
 		return
 	end
-	local screenSize = displaysLH.get_screen_size()
-
-	-- Defaults
-	local winPos = nil
-	local monitorPos = displaysLH.monMain
-	local widthFractionLarge = 70;
-	local widthFractionSmall = 80;
-	local heightFraction = 100;
-
-	-- App specific settings
 	local app = this.app_from_name(appName);
-	if app then
-		monitorPos = app.monitorPos;
-		if app.windowPos then
-			winPos = app.windowPos;
-		end
-		if app.widthFracSmall then
-			widthFractionSmall = app.widthFracSmall;
-		end
-		if app.widthFracLarge then
-			widthFractionLarge = app.widthFracLarge;
-		end
+	if not app then
+		return
+	elseif not app.windowPos then
+		return
 	end
 
+	-- App specific settings
+	local heightFraction = 100;
+	local monitorPos = app.monitorPos;
+	local	winPos = app.windowPos;
+	if app.widthFracSmall then
+		widthFractionSmall = app.widthFracSmall;
+	else
+ 		widthFractionSmall = 80;
+	end
+	if app.widthFracLarge then
+		widthFractionLarge = app.widthFracLarge;
+	else
+		widthFractionLarge = 70;
+	end
+
+	local screenSize = displaysLH.get_screen_size()
 	if screenSize == displaysLH.sizeSmall then
 		widthFraction = widthFractionSmall;
 	else
 		widthFraction = widthFractionLarge;
 	end
 
-	if appName == "BBEdit" then
-		winPos = windowLH.left
-		widthFraction = 60
-		if screenSize == displaysLH.sizeSmall then
-			widthFraction = 80
-		end
-	elseif appName == "Pathfinder" then
-		winPos = windowLH.right
-		widthFraction = 75
-	end
-
-	if winPos then
-		hs.application.launchOrFocus(appName)
-		local win = hs.window.focusedWindow()
-		windowLH.position_window(win, monitorPos, winPos, widthFraction, heightFraction)
-	end
+	hs.application.launchOrFocus(appName)
+	local win = hs.window.focusedWindow()
+	windowLH.position_window(win, monitorPos, winPos, widthFraction, heightFraction)
 end
 
 
@@ -123,15 +124,14 @@ end
 
 
 function this.position_all_apps()
-	local appList = {"Safari", "BBEdit", "Atom", "Lyx", "Postbox"}
+	-- should use app objects +++
+	local appList = {"Safari", "Atom", "Firefox", "Lyx", 'Path Finder', "Postbox"}
 	local appName = nil
 
 	for i1 = 1, #appList do
 		appName = appList[i1]
 		if hs.application.find(appName) then
 			this.position_app(appName)
-		-- else
-		-- 	hs.alert.show(appName .. " not found")
 		end
 	end
 end

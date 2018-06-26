@@ -7,32 +7,38 @@ require("hardwareLH")
 require("appMenuLH")
 require("displaysLH")
 
+this.chooserMods = {"cmd", "alt", "ctrl"};
+this.winPosMods = {"alt", "cmd"};
+
+this.fileChooserKey = 'o';
+
+
 function this.map_keys()
    -- hs.hotkey.bind({"alt", "ctrl"}, 't', test1)
 
-   hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
+   this.map_choosers();
+   this.map_window_movements();
+
+   hs.hotkey.bind(this.chooserMods, "R", function()
      hs.reload()
      hs.alert("Config reloaded")
    end)
 
-   if uiLH then
-   	hs.hotkey.bind({"cmd", "alt", "ctrl"}, "U", uiLH.macro_selector)
-      hs.hotkey.bind({"cmd", "alt", "ctrl"}, "M", appMenuLH.current_app_menu)
-   end
-
-   if textReplaceLH then
-   	hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Y", textReplaceLH.chooser)
-   end
-
-   hs.hotkey.bind({"cmd", "alt", "ctrl"}, "=", hardwareLH.brightness_up)
-   hs.hotkey.bind({"cmd", "alt", "ctrl"}, "-", hardwareLH.brightness_down)
+   local hardwareMods = {"cmd", "alt", "ctrl"};
+   hs.hotkey.bind(hardwareMods, "=", hardwareLH.brightness_up)
+   hs.hotkey.bind(hardwareMods, "-", hardwareLH.brightness_down)
+   hs.hotkey.bind(hardwareMods, "0", hardwareLH.volume_up)
+   hs.hotkey.bind(hardwareMods, "9", hardwareLH.volume_down)
 
    hs.hints.style = "vimperator"
-   hs.hotkey.bind({"cmd", "alt", "ctrl"}, 'w',
+   hs.hotkey.bind(this.chooserMods, 'w',
     	function() hs.hints.windowHints() end)
+end
 
+
+function this.map_window_movements()
    -- Hotkey for window positioning
-   local winPosKey = {"alt", "cmd"}
+   local winPosKey = this.winPosMods;
    hs.hotkey.bind(winPosKey, "a", appsLH.position_all_apps);
    hs.hotkey.bind(winPosKey, "c", appsLH.position_current_app);
 
@@ -51,6 +57,27 @@ function this.map_keys()
 
    hs.hotkey.bind(winPosKey, "n", displaysLH.move_win_to_next_screen);
    hs.hotkey.bind(winPosKey, "m", mouse_to_win_center);
+end
+
+
+function this.map_choosers()
+   if fileChooserLH then
+      hs.hotkey.bind(this.chooserMods, this.fileChooserKey, fileChooserLH.chooser)
+   end
+
+   if uiLH then
+   	hs.hotkey.bind(this.chooserMods, "U", uiLH.macro_selector)
+   end
+
+   if appMenuLH then
+      hs.hotkey.bind(this.chooserMods, "M", appMenuLH.current_app_menu)
+   end
+
+   if textReplaceLH then
+   	hs.hotkey.bind(this.chooserMods, "Y", textReplaceLH.chooser)
+   end
+
+   hs.hotkey.bind(this.chooserMods, "H", hsLH.command_history_chooser)
 end
 
 return this
