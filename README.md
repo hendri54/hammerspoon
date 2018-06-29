@@ -9,3 +9,12 @@ Major functionality:
 * window management (app specific default positions)
 * application menus
 * text replacement using chooser
+
+## Tips and tricks
+
+Slow key repeat rate
+
+* I am using the fix from [stackoverflow](https://stackoverflow.com/questions/40986242/key-repeats-are-delayed-in-my-hammerspoon-script)
+* Implemented in `hsLH.fastKeyBind`.
+
+------------------

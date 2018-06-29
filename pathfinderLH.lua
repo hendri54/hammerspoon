@@ -57,7 +57,7 @@ function this.tag_selection()
       hs.alert.show('Pathfinder: nothing to tag')
       return
    end;
-   tagsLH.tag_dialog(pathTb)
+   tagsLH.tag_dialog(pathTb, 'Path Finder');
 end
 
 return this

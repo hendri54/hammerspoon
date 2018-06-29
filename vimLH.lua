@@ -118,7 +118,9 @@ function this.key_bind_control(mods, key, newMods, newKey)
    function ctrlEvent()
       hs.eventtap.keyStroke(newMods, newKey)
    end
-   hs.hotkey.bind(mods2, key, ctrlEvent);
+   -- Use fast key repeat
+   hsLH.fastKeyBind(mods2, key,  newMods, newKey);
+   -- hs.hotkey.bind(mods2, key, ctrlEvent, nil, ctrlEvent);
 end
 
 

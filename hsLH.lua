@@ -55,4 +55,23 @@ function this.make_history_into_chooser_tb()
 end
 
 
+---------------------------------
+-- Keystrokes with fast repeat
+-- https://stackoverflow.com/questions/40986242/key-repeats-are-delayed-in-my-hammerspoon-script
+local function fastKeyStroke(modifiers, character)
+  local event = require("hs.eventtap").event
+  event.newKeyEvent(modifiers, string.lower(character), true):post()
+  event.newKeyEvent(modifiers, string.lower(character), false):post()
+end
+
+-- Bind keystroke with fast repeat
+function this.fastKeyBind(mods, key,  newMods, newKey)
+   hs.hotkey.bind(mods, key,
+      function() fastKeyStroke(newMods, newKey) end,
+      nil,
+      function() fastKeyStroke(newMods, newKey) end
+    )
+end
+
+
 return this

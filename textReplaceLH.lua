@@ -2,7 +2,7 @@ local this = {}
 textReplaceLH = this
 
 require("privateLH")
-
+require('systemLH')
 
 -- Replacement table for app
 function this.app_table(appName)
@@ -53,7 +53,9 @@ function this.replace_text(macroName, appName, typeIt)
    -- Process replacement
    if keyStrokes and typeIt then
       -- flickers console on when it is visible
-      hs.application.launchOrFocus(appName)
+      hs.application.launchOrFocus(appName);
+      systemLH.sleep(0.3);  -- better way of waiting for app to be in front +++
+      -- hs.alert.show(appName .. ': ' .. keyStrokes)
       hs.eventtap.keyStrokes(keyStrokes)
    end
    return keyStrokes

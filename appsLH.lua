@@ -21,10 +21,12 @@ require("textEditLH")
 -- List of all applications with settings
 -- Need to create a pointer to this before iterating on it
 -- Lower case names!
-this.appList = {matlab = matlabLH.app(), bear = bearLH.app(),
-	atom = atomLH.app(),  firefox = firefoxLH.app(),
-	lyx = lyxLH.app(), pathfinder = pathfinderLH.app(),  postbox = postboxLH.app(),
-	safari = safariLH.app(),  textedit = textEditLH.app()};
+-- For unknown reason this sometimes fails. The appList table appears empty.
+-- Therefore replaced with long ugly if-else construct below.
+-- this.appList = {matlab = matlabLH.app(), bear = bearLH.app(),
+-- 	atom = atomLH.app(),  firefox = firefoxLH.app(),
+-- 	lyx = lyxLH.app(), pathfinder = pathfinderLH.app(),  postbox = postboxLH.app(),
+-- 	safari = safariLH.app(),  textedit = textEditLH.app()};
 
 
 function this.current_app_name()
@@ -35,8 +37,38 @@ end
 
 -- App object from name
 -- Not case sensitive
-function this.app_from_name(appName)
+-- Returns nil when app not valid
+function this.app_from_name(appNameIn)
+	local appName = string.lower(appNameIn);
 	local resultApp = nil;
+
+	if appName == 'atom' then
+		resultApp = atomLH.app();
+	elseif appName == 'bear' then
+		resultApp = bearLH.app();
+	elseif appName == 'firefox' then
+		resultApp = firefoxLH.app();
+	elseif appName == 'lyx' then
+		resultApp = lyxLH.app();
+	elseif appName == 'matlab' then
+		resultApp = matlabLH.app();
+	elseif appName == 'path finder'  or  appName == 'pathfinder' then
+		resultApp = pathfinderLH.app();
+	elseif appName == 'postbox' then
+		resultApp = postboxLH.app();
+	elseif appName == 'safari' then
+		resultApp = safariLH.app();
+	elseif appName == 'textedit' then
+		resultApp = textEditLH.app();
+	else
+		return nil;
+	end
+
+	assert(resultApp, 'App object empty')
+	return resultApp;
+
+	--[[
+
 	-- Cannot iterate on this.appList without making a "copy"
 	local appTb = this.appList;
 	if not appTb then
@@ -49,6 +81,7 @@ function this.app_from_name(appName)
 		end
 	end
 	return resultApp;
+	]]
 end
 
 

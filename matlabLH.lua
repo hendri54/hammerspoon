@@ -1,3 +1,8 @@
+--[[
+Matlab settings
+
+Typing keystrokes into Matlab editor does not work.
+]]
 local this = {}
 matlabLH = this
 
@@ -18,7 +23,10 @@ function this.replacement_table()
    end]],
       functiontest = [[function tests = test
          test = functiontests(localfunctions)
-      end]]
+      end]],
+      comment = [[%{
+         %}]],
+      test1 = 'string for testing'
    }
    return t
 end

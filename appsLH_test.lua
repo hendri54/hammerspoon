@@ -5,11 +5,12 @@ packageLH.reload("appsLH")
 
 
 function this.test_all()
-   this.appList_test()
+--   this.appList_test()
    this.app_from_name_test()
 end
 
 
+--[[
 function this.appList_test()
    local appTb = appsLH.appList;
    for k, v in pairs(appTb) do
@@ -22,7 +23,7 @@ function this.appList_test()
       assert(app)
    end
 end
-
+--]]
 
 function this.app_from_name_test()
    local appList = {"matlab", "bear", 'path finder'}

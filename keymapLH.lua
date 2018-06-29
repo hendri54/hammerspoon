@@ -13,6 +13,16 @@ this.winPosMods = {"alt", "cmd"};
 this.fileChooserKey = 'o';
 
 
+-- Wrapper for binding keys with key repeat
+function bind_key(mods, key, bind_function, withRepeat)
+   if withRepeat then
+      hs.hotkey.bind(mods, key, bind_function, nil, bind_function)
+   else
+      hs.hotkey.bind(mods, key, bind_function)
+   end
+end
+
+
 function this.map_keys()
    -- hs.hotkey.bind({"alt", "ctrl"}, 't', test1)
 
@@ -25,10 +35,10 @@ function this.map_keys()
    end)
 
    local hardwareMods = {"cmd", "alt", "ctrl"};
-   hs.hotkey.bind(hardwareMods, "=", hardwareLH.brightness_up)
-   hs.hotkey.bind(hardwareMods, "-", hardwareLH.brightness_down)
-   hs.hotkey.bind(hardwareMods, "0", hardwareLH.volume_up)
-   hs.hotkey.bind(hardwareMods, "9", hardwareLH.volume_down)
+   bind_key(hardwareMods, "=", hardwareLH.brightness_up, false)
+   bind_key(hardwareMods, "-", hardwareLH.brightness_down, false)
+   bind_key(hardwareMods, "0", hardwareLH.volume_up, false)
+   bind_key(hardwareMods, "9", hardwareLH.volume_down, false)
 
    hs.hints.style = "vimperator"
    hs.hotkey.bind(this.chooserMods, 'w',
